@@ -1,12 +1,9 @@
 package com.estacionamento.jose.controller;
 
 import com.estacionamento.jose.Give;
-import com.estacionamento.jose.entity.Model;
 import com.estacionamento.jose.entity.Movement;
-import com.estacionamento.jose.repository.ModelRepository;
 import com.estacionamento.jose.repository.MovementRepository;
 import com.estacionamento.jose.service.MovementService;
-import com.estacionamento.jose.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.module.Configuration;
 import java.util.List;
 
 @Controller
@@ -36,7 +32,7 @@ public class MovementController {
                 ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
                 : ResponseEntity.ok(cur_movement);
     }
-    //
+
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll(){
 
@@ -48,7 +44,7 @@ public class MovementController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-//
+
     @GetMapping("/ativo")
     public ResponseEntity<?> findByActiveMovement(@Param("active") final boolean active){
         return ResponseEntity.ok(this.movementRepository.findByActiveMovement(active));
@@ -57,7 +53,7 @@ public class MovementController {
     @PostMapping("/add")
     public ResponseEntity<?> cadastrar(@RequestBody final Movement movement){
         try {
-            this.movementService.signup(movement);
+            this.movementService.enter(movement);
             return ResponseEntity.ok("Registrado cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e) {
@@ -86,15 +82,15 @@ public class MovementController {
 //    @PutMapping("/saida")
 //    public ResponseEntity<?> setExit(@RequestParam("id") final Long id){
 //        try{
-//            Give conf = this.movementService.Exit(id);
+//            Give give = this.movementService.Exit(id);
 //
-//            return ResponseEntity.ok(conf);
+//            return ResponseEntity.ok(give);
 //        }
 //        catch (RuntimeException e){
 //            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
 //        }
 //    }
-//
+
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){

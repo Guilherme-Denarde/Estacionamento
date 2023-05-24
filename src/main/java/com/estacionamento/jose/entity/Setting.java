@@ -1,8 +1,6 @@
 package com.estacionamento.jose.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +9,13 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "settings", schema = "public")
-public class Setting extends AbstractEntity {
+public class Setting  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    @Setter
+    private Long id;
+
     @Getter @Setter
     @Column(name = "valueHour", nullable = false)
     private BigDecimal valueHour;
@@ -51,5 +55,20 @@ public class Setting extends AbstractEntity {
     @Getter @Setter
     @Column(name = "availVan", nullable = false)
     private Integer availVan;
+
+    @PrePersist
+    public void defaultSetting(){
+        this.id = 1L;
+        this.valueHour = BigDecimal.valueOf(10);
+        this.valueTax = BigDecimal.valueOf(1);
+        this.startShift = LocalTime.parse("07:00:00");
+        this.endShift = LocalTime.parse("20:00:00");
+        this.timeForDiscount = LocalTime.parse("00:02:00");
+        this.generateDiscount = true;
+        this.availBike = 15;
+        this.availCar = 30;
+        this.availVan = 5;
+
+    }
 
 }

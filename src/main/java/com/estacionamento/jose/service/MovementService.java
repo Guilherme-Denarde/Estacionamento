@@ -2,9 +2,10 @@ package com.estacionamento.jose.service;
 
 import com.estacionamento.jose.Give;
 import com.estacionamento.jose.entity.Movement;
-import com.estacionamento.jose.entity.Configuration;
+import com.estacionamento.jose.entity.Setting;
 import com.estacionamento.jose.repository.MovementRepository;
 //import com.estacionamento.jose.repository.ConfigurationRepository;
+import com.estacionamento.jose.repository.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +20,11 @@ public class MovementService {
     @Autowired
     private MovementRepository movementRepository;
 
-//    @Autowired
-//    private ConfigurationRepository configurationRepository;
+    @Autowired
+    private SettingRepository configurationRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void signup(final Movement movement){
+    public void enter(final Movement movement){
 
         Assert.isTrue(movement.getVehicleId() != null, "Veiculo não encontrado");
 
