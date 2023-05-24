@@ -1,6 +1,6 @@
 package com.estacionamento.jose.controller;
 
-import com.estacionamento.jose.Give;
+//import com.estacionamento.jose.Give;
 import com.estacionamento.jose.entity.Movement;
 import com.estacionamento.jose.repository.MovementRepository;
 import com.estacionamento.jose.service.MovementService;
@@ -51,9 +51,9 @@ public class MovementController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> cadastrar(@RequestBody final Movement movement){
+    public ResponseEntity<?> save(@RequestBody final Movement movement){
         try {
-            this.movementService.enter(movement);
+            this.movementService.save(movement);
             return ResponseEntity.ok("Registrado cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e) {
@@ -79,19 +79,27 @@ public class MovementController {
         }
     }
 
-//    @PutMapping("/saida")
-//    public ResponseEntity<?> setExit(@RequestParam("id") final Long id){
+    @PutMapping("/exit")
+    public ResponseEntity<?> setExit(@RequestParam("id") final Long id){
+        try{
+            this.movementService.Exit(id);
+
+            return ResponseEntity.ok("Relatorio feito");
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+//    @PutMapping("/saida/{id}")
+//    public ResponseEntity<?> saida(@PathVariable("id") final Long id){
 //        try{
-//            Give give = this.movementService.Exit(id);
-//
-//            return ResponseEntity.ok(give);
-//        }
-//        catch (RuntimeException e){
-//            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+//            this.movimentacaoService.saida(id);
+//            return ResponseEntity.ok("Registro realizado e relatorio gerado");
+//        } catch (RuntimeException erro){
+//            return ResponseEntity.badRequest().body("Não conseguio sair"+erro.getMessage());
 //        }
 //    }
-
-
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){
 

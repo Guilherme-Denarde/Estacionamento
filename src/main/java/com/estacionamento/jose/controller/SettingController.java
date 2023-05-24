@@ -35,6 +35,20 @@ public class SettingController {
         }
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> cadastrar(@RequestBody final Setting setting){
+        try {
+            this.settingService.cadastrar(setting);
+            return ResponseEntity.ok("Registrado cadastrado com Sucesso");
+        }
+        catch (DataIntegrityViolationException e) {
+            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
     @PutMapping("/edit")
     public ResponseEntity<?> edited(@RequestParam("id") final Long id,@RequestBody final Setting setting){
 

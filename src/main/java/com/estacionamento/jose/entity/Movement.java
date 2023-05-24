@@ -31,7 +31,7 @@ public class Movement extends AbstractEntity{
     private LocalDateTime exit;
     @Getter @Setter
     @Column(name = "time")
-    private Long time;
+    private LocalTime time;
     @Getter @Setter
     @Column(name = "time_discount")
     private LocalTime timeDiscount;

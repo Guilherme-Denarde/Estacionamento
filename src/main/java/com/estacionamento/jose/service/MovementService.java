@@ -1,6 +1,6 @@
 package com.estacionamento.jose.service;
 
-import com.estacionamento.jose.Give;
+//import com.estacionamento.jose.Give;
 import com.estacionamento.jose.entity.Movement;
 import com.estacionamento.jose.entity.Setting;
 import com.estacionamento.jose.repository.MovementRepository;
@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 @Service
@@ -21,10 +23,10 @@ public class MovementService {
     private MovementRepository movementRepository;
 
     @Autowired
-    private SettingRepository configurationRepository;
+    private SettingRepository settingRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void enter(final Movement movement){
+    public void save(final Movement movement){
 
         Assert.isTrue(movement.getVehicleId() != null, "Veiculo não encontrado");
 
@@ -50,49 +52,28 @@ public class MovementService {
         this.movementRepository.save(movement);
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public Give Exit(final Long id){
-//
-//        Movement movement = this.movementRepository.findById(id).orElse(null);
-//
-//        movement.setExit(LocalDateTime.now());
-//
-//        Long tempoTotal = movement.getEnter().until(movement.getExit(), ChronoUnit.HOURS);
-//
-//        movement.setTime(tempoTotal);
-//
-////        Configuration configuration = configurationRepository.findById().orElse(null);
-//
-////        Configuration configuration = (configuration) -> {
-////            this.configurationRepository.findById().orElse(null)
-////        };
-//
-//
-//        BigDecimal hour = new BigDecimal(movement.getTime());
-//
-//        BigDecimal valueTotal = configuration.getValueHour().multiply(hour);
-//
-//        movement.setValueHour(valueTotal);
-//
-//        Long discount = movement.getTime() / configuration.getTempoParaDesconto();
-//
-//        movement.setDiscountValue(discount);
-//
-//        System.out.println(discount);
-//
-//        BigDecimal calc = new BigDecimal(discount).multiply(configuration.getTempoDeDesconto());
-//
-//        BigDecimal total = movement.getValueTotal().subtract(calc);
-//
-//        movement.setValueTotal(total);
-//
-//        this.movementRepository.save(movement);
-//
-//        return new Give(movement.getEnter(), movement.getExit(), movement.getConductorId(), movement.getVehicleId(), movement.getTime(), configuration.getTempoParaDesconto(), movement.getValueHour(), movement.getDiscountValue());
-//    }
+    @Transactional(rollbackFor = Exception.class)
+    public void Exit(final Long id){
+
+        Setting setting = settingRepository.findById(id).orElse(null);
+
+        Movement movement = this.movementRepository.findById(id).orElse(null);
+
+        System.out.println("Entrada: " + movement.getEnter());
+
+        System.out.println("Saida: " + movement.getExit());
+
+        Duration duration = Duration.between(movement.getEnter(),movement.getExit());
+
+        System.out.println("Hora total: " + duration.toHours());
+
+        System.out.println("Total a pagar: " + duration.toHours() * setting.getValueHour().longValue());
+
+        this.movementRepository.save(movement);
+
+    }
 
 
-//
     @Transactional(rollbackFor = Exception.class)
     public void delete(final Movement movement){
         final Movement movementBanco = this.movementRepository.findById(movement.getId()).orElse(null);
