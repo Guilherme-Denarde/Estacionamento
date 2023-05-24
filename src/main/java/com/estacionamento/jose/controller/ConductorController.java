@@ -1,7 +1,8 @@
 package com.estacionamento.jose.controller;
-import com.estacionamento.jose.entity.Brand;
-import com.estacionamento.jose.repository.BrandRepository;
-import com.estacionamento.jose.service.BrandService;
+
+import com.estacionamento.jose.entity.Conductor;
+import com.estacionamento.jose.repository.ConductorRepository;
+import com.estacionamento.jose.service.ConductorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.repository.query.Param;
@@ -13,29 +14,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/brand")
-public class BrandController {
+@RequestMapping("api/conductor")
+public class ConductorController {
+    @Autowired
+    private ConductorRepository conductorRepository;
 
     @Autowired
-    private BrandRepository brandRepository;
-
-    @Autowired
-    private BrandService brandService;
+    private ConductorService conductorService;
 
     @GetMapping("/id")
     public ResponseEntity<?> findById(@RequestParam("id") final Long id){
-        Brand cur_brand = this.brandRepository.findById(id).orElse(null);
+        Conductor cur_condutor = this.conductorRepository.findById(id).orElse(null);
 
-        return cur_brand == null
+        return cur_condutor == null
                 ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
-                : ResponseEntity.ok(cur_brand);
+                : ResponseEntity.ok(cur_condutor);
     }
 
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll(){
 
         try{
-            List<?> m_marca = brandRepository.findAll();
+            List<?> m_marca = conductorRepository.findAll();
             return new ResponseEntity<>(m_marca, HttpStatus.OK);
         }catch (Exception e){
 
@@ -44,14 +44,14 @@ public class BrandController {
     }
 
     @GetMapping("/ativo")
-    public ResponseEntity<?> findByActive(@Param("ativo") final boolean active){
-        return ResponseEntity.ok(this.brandRepository.findByActive(active));
+    public ResponseEntity<?> findByAtivo(@Param("ativo") final boolean ativo){
+        return ResponseEntity.ok(this.conductorRepository.findByAtivo(ativo));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> cadastrar(@RequestBody final Brand brand){
+    public ResponseEntity<?> cadastrar(@RequestBody final Conductor conductor){
         try {
-            this.brandRepository.save(brand);
+            this.conductorRepository.save(conductor);
             return ResponseEntity.ok("Registrado cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e) {
@@ -62,11 +62,10 @@ public class BrandController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> edit(@RequestParam("id") final Long id,@RequestBody final Brand brand){
-
+    @PutMapping("/edit")
+    public ResponseEntity<?> edit(@RequestParam("id") final Long id,@RequestBody final Conductor conductor){
         try{
-            this.brandService.edit(brand, id);
+            this.conductorService.edit(conductor, id);
             return ResponseEntity.ok("Registro atualizacao com sucesso");
         }
         catch (DataIntegrityViolationException e){
@@ -79,12 +78,11 @@ public class BrandController {
 
 
     @DeleteMapping
-    public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){
+    public ResponseEntity<?> deletar(@RequestParam ("id") final Long id){
 
-        final Brand bb = this.brandRepository.findById(id).orElse(null);
+        final Conductor cc = this.conductorRepository.findById(id).orElse(null);
 
-        this.brandService.delete(bb);
-
+        this.conductorService.delete(cc);
 
         return ResponseEntity.ok("Marca deletada com sucesso");
     }
