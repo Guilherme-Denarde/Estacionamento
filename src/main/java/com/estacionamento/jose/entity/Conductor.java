@@ -3,9 +3,7 @@ package com.estacionamento.jose.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import net.bytebuddy.implementation.bind.annotation.Super;
-
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "Conductor", schema = "public")
@@ -24,12 +22,15 @@ public class Conductor extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "payedTime")
-    private LocalDateTime payedTime;
+    private LocalTime payedTime;
 
     @Getter @Setter
     @Column(name = "cutTime")
-    private LocalDateTime cutTime;
+    private LocalTime cutTime;
 
-
-
+    @PrePersist
+    private void fillTime() {
+        this.payedTime = LocalTime.now();
+        this.cutTime = LocalTime.now();
+    }
 }
