@@ -50,9 +50,9 @@ public class VehicleController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> cadastrar(@RequestBody final Vehicle vehicle){
+    public ResponseEntity<?> signup(@RequestBody final Vehicle vehicle){
         try {
-            this.vehicleRepository.save(vehicle);
+            this.vehicleService.signup(vehicle);
             return ResponseEntity.ok("Registrado cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e) {
@@ -78,13 +78,13 @@ public class VehicleController {
         }
     }
 
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<?> deletar (@RequestParam ("id") final Long id) {
-//        final Vehicle vehicleBanco = this.vehicleRepository.findById(id).orElse(null);
-//
-//        this.vehicleService.delete(vehicleBanco);
-//
-//        return ResponseEntity.ok("Veiculo deletado com sucesso");
-//    }
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete (@RequestParam ("id") final Long id) {
+        final Vehicle vehicleBanco = this.vehicleRepository.findById(id).orElse(null);
+
+        this.vehicleService.delete(vehicleBanco);
+
+        return ResponseEntity.ok("Veiculo deletado com sucesso");
+    }
 
 }

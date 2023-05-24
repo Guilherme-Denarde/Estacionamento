@@ -51,7 +51,7 @@ public class BrandController {
     @PostMapping("/add")
     public ResponseEntity<?> cadastrar(@RequestBody final Brand brand){
         try {
-            this.brandRepository.save(brand);
+            this.brandService.cadastrar(brand);
             return ResponseEntity.ok("Registrado cadastrado com Sucesso");
         }
         catch (DataIntegrityViolationException e) {
@@ -84,7 +84,6 @@ public class BrandController {
         final Brand bb = this.brandRepository.findById(id).orElse(null);
 
         this.brandService.delete(bb);
-
 
         return ResponseEntity.ok("Marca deletada com sucesso");
     }

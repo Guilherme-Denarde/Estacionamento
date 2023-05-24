@@ -19,21 +19,19 @@ public class ModelService {
         private ModelRepository modelRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(@RequestParam("name") final String name,@RequestBody final Model model){
+    public void signup(@RequestBody final Model model){
 
-        Assert.isTrue(model.getName() != null, "O nome está faltando");
+        Assert.isTrue(model.getName().length() > 2, "O nome está faltando");
 
         this.modelRepository.save(model);
     }
-
-
 
     @Transactional(rollbackFor = Exception.class)
     public void edited(final Model model, final Long id){
 
         final Model modelBanco = this.modelRepository.findById(id).orElse(null);
 
-        Assert.isTrue(model.getName() != null, "O nome está faltando");
+        Assert.isTrue(model.getName().length() > 2, "O nome está faltando");
 
         Assert.isTrue(this.modelRepository.findByNomePut(model.getName(), id).isEmpty(), "ja existe esse modelo");
 

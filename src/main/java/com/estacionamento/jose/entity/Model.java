@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "model", schema = "public")
+@Table(name = "modelo", schema = "public")
 public class Model extends AbstractEntity{
 
     @Getter @Setter
@@ -14,7 +14,7 @@ public class Model extends AbstractEntity{
 
     @Getter @Setter
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "brandId")
+    @JoinColumn(name = "brandId",nullable = false)
     private Brand brandId;
 
 }

@@ -22,7 +22,7 @@ public class ConductorService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(@RequestParam("name") final String name, @RequestBody final Conductor conductor){
 
-        Assert.isTrue(conductor.getName() != null, "O nome está faltando");
+        Assert.isTrue(conductor.getName().length() > 2, "O nome está faltando");
 
         Assert.isTrue(!conductor.getName().matches("\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)"), "O nome deve conter apelido, nao deve ter numeros");
 
