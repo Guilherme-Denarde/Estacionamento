@@ -44,7 +44,7 @@ public class BrandController {
     }
 
     @GetMapping("/ativo")
-    public ResponseEntity<?> findByActive(@Param("ativo") final boolean active){
+    public ResponseEntity<?> findByActive(@Param("active") final boolean active){
         return ResponseEntity.ok(this.brandRepository.findByActive(active));
     }
 
@@ -62,7 +62,7 @@ public class BrandController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/edit")
     public ResponseEntity<?> edit(@RequestParam("id") final Long id,@RequestBody final Brand brand){
 
         try{
@@ -78,7 +78,7 @@ public class BrandController {
     }
 
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){
 
         final Brand bb = this.brandRepository.findById(id).orElse(null);

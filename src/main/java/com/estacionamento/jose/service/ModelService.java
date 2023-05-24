@@ -18,37 +18,41 @@ public class ModelService {
         @Autowired
         private ModelRepository modelRepository;
 
-//    @Transactional(rollbackFor = Exception.class)
-//    public void cadastrar(@RequestParam("name") final String name,@RequestBody final Brand brand){
-//
-//        Assert.isTrue(brand.getName() != null, "O nome está faltando");
-//
-//        this.brandRepository.save(brand);
-//    }
+    @Transactional(rollbackFor = Exception.class)
+    public void cadastrar(@RequestParam("name") final String name,@RequestBody final Model model){
 
-        @Transactional(rollbackFor = Exception.class)
-        public void edited(final Model model, final Long id){
+        Assert.isTrue(model.getName() != null, "O nome está faltando");
 
-            final Model modelBanco = this.modelRepository.findById(id).orElse(null);
+        this.modelRepository.save(model);
+    }
 
-            Assert.isTrue(modelBanco != null || modelBanco.getId() == model.getId(), "Não foi possivel indenficar o registro no banco");
-            Assert.isTrue(model.getName() != null, "O nome está faltando");
-            Assert.isTrue(this.modelRepository.findByNomePut(model.getName(),id).isEmpty(), "ja existe essa marca");
 
-            this.modelRepository.save(model);
-        }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void edited(final Model model, final Long id){
+
+        final Model modelBanco = this.modelRepository.findById(id).orElse(null);
+
+        Assert.isTrue(model.getName() != null, "O nome está faltando");
+
+        Assert.isTrue(this.modelRepository.findByNomePut(model.getName(), id).isEmpty(), "ja existe esse modelo");
+
+        Assert.isTrue(modelBanco != null || modelBanco.getId() == model.getId(), "Não foi possivel indenficar o registro no banco");
+
+        this.modelRepository.save(model);
+    }
 
     @Transactional(rollbackFor = Exception.class)
 
     public void delete(final Model model){
-        final Model brandBanco = this.modelRepository.findById(model.getId()).orElse(null);
+        final Model modelBanco = this.modelRepository.findById(model.getId()).orElse(null);
 
-        List<Model> brandAtivo = this.modelRepository.findByActiveModel(model.isActive());
+        List<Model> modelActive = this.modelRepository.findByActiveModel(model.isActive());
 
-        if(brandAtivo.isEmpty()){
-            this.modelRepository.delete(brandBanco);
+        if(modelActive.isEmpty()){
+            this.modelRepository.delete(modelBanco);
         } else{
-            brandBanco.setActive(Boolean.FALSE);
+            modelBanco.setActive(Boolean.FALSE);
             this.modelRepository.save(model);
         }
     }
