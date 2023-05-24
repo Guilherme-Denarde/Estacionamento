@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface ModelRepository extends JpaRepository<Model, Long>{
 
-    List<Model>findAll();
-
     @Query("FROM Model WHERE active = true")
     List<Model> findByActiveModel(@Param("active")final boolean active);
 

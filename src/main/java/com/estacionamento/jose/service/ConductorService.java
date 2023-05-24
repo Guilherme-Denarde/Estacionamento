@@ -27,10 +27,13 @@ public class ConductorService {
         Assert.isTrue(conductor.getName().length() > 1, "O nome está vazio");
         Assert.isTrue(conductor.getName().matches("[a-zA-Z]+"), "O nome deve apenas conter letras");
 
+
         //CPF
         Assert.isTrue(conductor.getCpf().length() > 1, "Complete o campo CPF");
         Assert.isTrue(conductor.getCpf().matches("^\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}$"), "CPF invalido");
         Assert.isTrue(this.conductorRepository.findCpf(conductor.getCpf()).isEmpty(), "CPF existente");
+
+
 
         //PHONE NUMBER
         Assert.isTrue(conductor.getTelephone().length() > 1, "O campo telefone esta vazio");

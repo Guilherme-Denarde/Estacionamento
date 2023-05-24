@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,9 +17,10 @@ public class BrandService {
     private BrandRepository brandRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(@RequestParam("name") final String name,@RequestBody final Brand brand){
+    public void cadastrar(@RequestBody final Brand brand){
 
-        Assert.isTrue(brand.getName() != null, "O nome está faltando");
+
+        Assert.isTrue(brand.getName().length() > 2, "O nome está faltando");
 
         this.brandRepository.save(brand);
     }
@@ -30,9 +30,9 @@ public class BrandService {
 
         final Brand brandBanco = this.brandRepository.findById(id).orElse(null);
 
-        Assert.isTrue(brandBanco != null || brandBanco.getId() == brand.getId(), "Não foi possivel indenficar o registro no banco");
+        Assert.isTrue(brandBanco != null || this.brandRepository.findById(id).equals(brand.getId()), "Não foi possivel indenficar o registro no banco");
 
-        Assert.isTrue(brand.getName() != null, "O nome está faltando");
+        Assert.isTrue(brand.getName().length() > 2, "O nome está faltando");
 
         Assert.isTrue(this.brandRepository.findByNomePut(brand.getName(),id).isEmpty(), "ja existe essa marca");
 

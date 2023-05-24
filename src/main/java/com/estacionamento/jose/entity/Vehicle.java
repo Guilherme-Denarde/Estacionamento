@@ -13,8 +13,8 @@ public class Vehicle extends AbstractEntity{
     private String plate;
 
     @Getter @Setter
-    @ManyToOne
-    @JoinColumn(name = "model")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "modelId",nullable = false)
     private Model modelId;
 
     @Getter @Setter

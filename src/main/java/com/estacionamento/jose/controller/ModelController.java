@@ -52,7 +52,7 @@ public class ModelController {
         @PostMapping("/add")
         public ResponseEntity<?> cadastrar(@RequestBody final Model model){
             try {
-                this.modelRepository.save(model);
+                this.modelService.signup(model);
                 return ResponseEntity.ok("Registrado cadastrado com Sucesso");
             }
             catch (DataIntegrityViolationException e) {
