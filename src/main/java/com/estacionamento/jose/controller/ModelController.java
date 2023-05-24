@@ -63,7 +63,7 @@ public class ModelController {
             }
         }
 
-        @PutMapping
+        @PutMapping("/edit")
         public ResponseEntity<?> edited(@RequestParam("id") final Long id,@RequestBody final Model model){
 
             try{
@@ -79,14 +79,14 @@ public class ModelController {
         }
 
 
-        @DeleteMapping
+        @DeleteMapping("/delete")
         public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){
 
             final Model bb = this.modelRepository.findById(id).orElse(null);
 
             this.modelService.delete(bb);
 
-            return ResponseEntity.ok("Marca deletada com sucesso");
+            return ResponseEntity.ok("Model deletada com sucesso");
         }
     }
 

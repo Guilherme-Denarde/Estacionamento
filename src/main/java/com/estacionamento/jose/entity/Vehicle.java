@@ -14,8 +14,8 @@ public class Vehicle extends AbstractEntity{
 
     @Getter @Setter
     @ManyToOne
-    @JoinColumn(name = "model", nullable = false)
-    private Model model;
+    @JoinColumn(name = "model")
+    private Model modelId;
 
     @Getter @Setter
     @Enumerated(EnumType.STRING)
@@ -24,7 +24,7 @@ public class Vehicle extends AbstractEntity{
 
     @Getter @Setter
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo", nullable = false)
+    @Column(name = "type", nullable = false)
     private Type type;
 
     @Getter @Setter

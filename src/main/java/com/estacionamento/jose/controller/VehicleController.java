@@ -1,13 +1,17 @@
 package com.estacionamento.jose.controller;
 
-
 import com.estacionamento.jose.entity.Vehicle;
 import com.estacionamento.jose.repository.VehicleRepository;
 import com.estacionamento.jose.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/api/vehicle")
@@ -19,7 +23,7 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<?> getById(@RequestParam("id") final Long id){
         Vehicle vehicle = this.vehicleRepository.findById(id).orElse(null);
 
@@ -28,53 +32,57 @@ public class VehicleController {
                 : ResponseEntity.ok(vehicle);
     }
 
-//    @GetMapping("/ativo")
-//    public ResponseEntity<?> getByAtivo(){
-//        return ResponseEntity.ok(this.vehicleRepository.findAtivo());
-//    }
+    @GetMapping("/active")
+    public ResponseEntity<?> findByActiveVehicle(@Param("active") final boolean active){
+        return ResponseEntity.ok(this.vehicleRepository.findByActiveVehicle(active));
+    }
 
-//    @GetMapping("/lista")
-//    public ResponseEntity<?> listaCompleta(){
-//        return ResponseEntity.ok(this.vehicleRepository.findAll());
-//    }
-//    @PostMapping
-//    public ResponseEntity<?> cadastrar(@RequestBody final Vehicle vehicle){
-//        try {
-//            this.vehicleService.register(vehicle);
-//            return ResponseEntity.ok("Registrado com Sucesso");
-//        }
-//        catch (DataIntegrityViolationException e){
-//            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-//        }
-//        catch (RuntimeException e){
-//            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-//        }
-//        catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-//        }
-//    }
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll(){
 
-//    @PutMapping
-//    public ResponseEntity<?> editar(@RequestParam("id") final Long id,
-//                                    @RequestBody final Vehicle vehicle
-//    ){
-//        try{
-//            this.vehicleService.editar(vehicle, id);
-//            return ResponseEntity.ok("Registro atualizado com sucesso");
-//        }
-//        catch (DataIntegrityViolationException e){
-//            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
-//        }
-//        catch (RuntimeException e){
-//            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
-//        }
-//    }
+        try{
+            List<?> m_marca = vehicleRepository.findAll();
+            return new ResponseEntity<>(m_marca, HttpStatus.OK);
+        }catch (Exception e){
 
-//    @DeleteMapping
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> cadastrar(@RequestBody final Vehicle vehicle){
+        try {
+            this.vehicleRepository.save(vehicle);
+            return ResponseEntity.ok("Registrado cadastrado com Sucesso");
+        }
+        catch (DataIntegrityViolationException e) {
+            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<?> edit(@RequestParam("id") final Long id,@RequestBody final Vehicle vehicle){
+
+        try{
+            this.vehicleService.edit(vehicle, id);
+            return ResponseEntity.ok("Registro atualizado com sucesso");
+        }
+        catch (DataIntegrityViolationException e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getCause().getCause().getMessage());
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
+        }
+    }
+
+//    @DeleteMapping("/delete")
 //    public ResponseEntity<?> deletar (@RequestParam ("id") final Long id) {
-//        final Veiculo veiculoBanco = this.veiculoRepository.findById(id).orElse(null);
+//        final Vehicle vehicleBanco = this.vehicleRepository.findById(id).orElse(null);
 //
-//        this.veiculoService.deletar(veiculoBanco);
+//        this.vehicleService.delete(vehicleBanco);
 //
 //        return ResponseEntity.ok("Veiculo deletado com sucesso");
 //    }

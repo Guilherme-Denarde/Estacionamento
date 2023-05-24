@@ -15,7 +15,7 @@ public interface ModelRepository extends JpaRepository<Model, Long>{
     List<Model>findAll();
 
     @Query("FROM Model WHERE active = true")
-    List<Model> findByActiveModel(@Param("active")final boolean ativo);
+    List<Model> findByActiveModel(@Param("active")final boolean active);
 
     @Query("FROM Model WHERE name = :name AND id = :id")
     List<Model> findByNomePut(@Param("name") final String name, @Param("id")final Long id);
