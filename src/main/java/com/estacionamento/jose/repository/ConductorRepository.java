@@ -17,5 +17,9 @@ public interface ConductorRepository extends JpaRepository<Conductor, Long> {
 
     @Query("FROM Conductor WHERE name = :name AND id = :id")
     List<Conductor> findByNomePut(@Param("name") final String name, @Param("id")final Long id);
+    @Query("from Conductor where cpf = :cpf")
+    public List<Conductor> findCpf(@Param("cpf") final String cpf);
 
+    @Query("from Conductor where telephone = :telephone")
+    public List<Conductor> findTelephone(@Param("telephone") final String telephone);
 }
