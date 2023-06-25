@@ -1,18 +1,12 @@
 package com.estacionamento.jose.service;
 
-import com.estacionamento.jose.Give;
 import com.estacionamento.jose.entity.Movement;
-import com.estacionamento.jose.entity.Configuration;
 import com.estacionamento.jose.repository.MovementRepository;
 //import com.estacionamento.jose.repository.ConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 public class MovementService {

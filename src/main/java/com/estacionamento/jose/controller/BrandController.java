@@ -14,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/brand")
+@CrossOrigin(origins = "http://localhost:8080")
 public class BrandController {
 
     @Autowired

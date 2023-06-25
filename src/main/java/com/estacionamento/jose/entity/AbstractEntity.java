@@ -3,7 +3,7 @@ package com.estacionamento.jose.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -35,7 +35,6 @@ public class AbstractEntity {
         this.atualizacao = LocalDateTime.now();
         this.active = true;
     }
-
 
 //    public abstract Optional<Object> stream();
 }

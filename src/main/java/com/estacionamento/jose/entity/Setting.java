@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "settings", schema = "public")
+@Table(name = "com/estacionamento/jose/settings", schema = "public")
 public class Setting extends AbstractEntity {
     @Getter @Setter
     @Column(name = "valueHour", nullable = false)
