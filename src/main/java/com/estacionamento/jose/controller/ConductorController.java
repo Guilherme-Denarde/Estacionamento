@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("api/conductor")
+@RequestMapping("/api/conductor")
+@CrossOrigin(origins = "http://localhost:8080")
 public class ConductorController {
     @Autowired
     private ConductorRepository conductorRepository;
@@ -77,7 +78,7 @@ public class ConductorController {
     }
 
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deletar(@RequestParam ("id") final Long id){
 
         final Conductor cc = this.conductorRepository.findById(id).orElse(null);

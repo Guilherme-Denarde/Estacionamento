@@ -3,7 +3,6 @@ package com.estacionamento.jose.entity;
 public enum Color {
     YELLOW,
     BLUE,
-    BEIGE,
     WHITE,
     GRAY,
     GOLD,

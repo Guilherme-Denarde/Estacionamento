@@ -15,6 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/model")
+@CrossOrigin(origins = "http://localhost:8080")
 public class ModelController {
 
         @Autowired
@@ -77,7 +78,6 @@ public class ModelController {
                 return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
             }
         }
-
 
         @DeleteMapping("/delete")
         public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){

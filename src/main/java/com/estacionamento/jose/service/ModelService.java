@@ -23,6 +23,11 @@ public class ModelService {
 
         Assert.isTrue(model.getName().length() > 2, "O nome está faltando");
 
+        Assert.isTrue(model.getAno() != null, "ano não encontrado");
+
+        Long atual = 2024L;
+
+        Assert.isTrue(model.getAno() < atual, "Ano invalido para veiculo");
         this.modelRepository.save(model);
     }
 
@@ -36,6 +41,8 @@ public class ModelService {
         Assert.isTrue(this.modelRepository.findByNomePut(model.getName(), id).isEmpty(), "ja existe esse modelo");
 
         Assert.isTrue(modelBanco != null || modelBanco.getId() == model.getId(), "Não foi possivel indenficar o registro no banco");
+
+        Assert.isTrue(model.getAno() != null, "ano não encontrado");
 
         this.modelRepository.save(model);
     }

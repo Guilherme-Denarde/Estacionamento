@@ -33,13 +33,7 @@ public class VehicleService {
 
         Assert.isTrue(vehicle.getType() != null, "type não encontrado");
 
-        Assert.isTrue(vehicle.getYear() != null, "ano não encontrado");
-
         Assert.isTrue(this.vehicleRepository.findByPlate(vehicle.getPlate()).isEmpty(), "a placa ja existe");
-
-        Long atual = 2024L;
-
-        Assert.isTrue(vehicle.getYear() < atual, "Ano invalido para veiculo");
 
         this.vehicleRepository.save(vehicle);
     }
@@ -64,7 +58,7 @@ public class VehicleService {
 
         Assert.isTrue(vehicle.getType() != null, "Tipo não encontrado");
 
-        Assert.isTrue(vehicle.getYear() != null, "ano não encontrado");
+
 
         Assert.isTrue(this.vehicleRepository.findByPlatePut(vehicle.getPlate(), id).isEmpty(), "a placa ja existe");
 

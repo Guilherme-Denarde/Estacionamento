@@ -13,11 +13,6 @@ public class Vehicle extends AbstractEntity{
     private String plate;
 
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "modelId",nullable = false)
-    private Model modelId;
-
-    @Getter @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "color", nullable = false)
     private Color color;
@@ -28,7 +23,8 @@ public class Vehicle extends AbstractEntity{
     private Type type;
 
     @Getter @Setter
-    @Column(name = "year", nullable = false)
-    private Integer year;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "modelId",nullable = false)
+    private Model modelId;
 
 }

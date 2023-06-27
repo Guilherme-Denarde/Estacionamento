@@ -14,11 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @EnableWebMvc
+@CrossOrigin("http://localhost:8080")
 public class WebConfig implements WebMvcConfigurer {
-    /**
-     *
-     * @param registry
-     */
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -26,7 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:8080/marca")
                 .allowedMethods("GET, POST, PUT, DELETE")
                 .allowCredentials(true);
-
 
         registry.addMapping("/api/model")
                 .allowedOrigins("http://localhost:8080/modelo")

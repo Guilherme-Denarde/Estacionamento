@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "modelo", schema = "public")
+@Table(name = "model", schema = "public")
 public class Model extends AbstractEntity{
 
     @Getter @Setter
@@ -13,8 +15,12 @@ public class Model extends AbstractEntity{
     private String name;
 
     @Getter @Setter
+    @Column(name = "ano", nullable = false)
+    private Long ano;
+
+    @Getter @Setter
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "brandId",nullable = false)
+    @JoinColumn(name = "brandId", unique = true,nullable = false)
     private Brand brandId;
 
 }

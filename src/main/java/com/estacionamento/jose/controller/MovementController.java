@@ -20,6 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/movement")
+@CrossOrigin(origins = "http://localhost:8080")
 public class MovementController {
 
     @Autowired
