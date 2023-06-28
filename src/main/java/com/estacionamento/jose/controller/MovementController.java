@@ -1,12 +1,8 @@
 package com.estacionamento.jose.controller;
 
-import com.estacionamento.jose.Give;
-import com.estacionamento.jose.entity.Model;
 import com.estacionamento.jose.entity.Movement;
-import com.estacionamento.jose.repository.ModelRepository;
 import com.estacionamento.jose.repository.MovementRepository;
 import com.estacionamento.jose.service.MovementService;
-import com.estacionamento.jose.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.module.Configuration;
 import java.util.List;
 
 @Controller
@@ -84,18 +79,16 @@ public class MovementController {
         }
     }
 
-//    @PutMapping("/saida")
-//    public ResponseEntity<?> setExit(@RequestParam("id") final Long id){
-//        try{
-//            Give conf = this.movementService.Exit(id);
-//
-//            return ResponseEntity.ok(conf);
-//        }
-//        catch (RuntimeException e){
-//            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-//        }
-//    }
-//
+    @PutMapping("/hora")
+    public ResponseEntity<?> horaFinal(@RequestParam("id") final Long id){
+        try {
+            this.movementService.horaFinal(id);
+            return ResponseEntity.ok("Registro alterado");
+
+        }catch (RuntimeException e){
+            return ResponseEntity.internalServerError().body("erro" + e.getMessage());
+        }
+    }
 
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletar (@RequestParam ("id") final Long id){
