@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/movement")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8081")
 public class MovementController {
 
     @Autowired
@@ -79,14 +79,24 @@ public class MovementController {
         }
     }
 
-    @PutMapping("/hora")
-    public ResponseEntity<?> horaFinal(@RequestParam("id") final Long id){
-        try {
-            this.movementService.horaFinal(id);
-            return ResponseEntity.ok("Registro alterado");
+//    @PutMapping("/hora")
+//    public ResponseEntity<?> horaFinal(@RequestParam("id") final Long id){
+//        try {
+//            this.movementService.horaFinal(id);
+//            return ResponseEntity.ok("Registro alterado");
+//
+//        }catch (RuntimeException e){
+//            return ResponseEntity.internalServerError().body("erro" + e.getMessage());
+//        }
+//    }
 
-        }catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("erro" + e.getMessage());
+    @PutMapping("/sair/{id}")
+    public ResponseEntity<?> sair(@PathVariable("id") final Long id){
+        try{
+            this.movementService.sair(id);
+            return ResponseEntity.ok("Registro realizado e relatorio gerado");
+        } catch (RuntimeException erro){
+            return ResponseEntity.badRequest().body("Não conseguio sair"+erro.getMessage());
         }
     }
 

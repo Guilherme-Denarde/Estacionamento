@@ -1,7 +1,5 @@
 package com.estacionamento.jose.entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,48 +8,40 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "configuracoes", schema = "public")
+@Table(name = "tb_configuracoes", schema = "public")
 public class Configuracao extends AbstractEntity{
-
-    @Getter@Setter
-    @Column(name = "valor_hora")
+    @Getter @Setter
+    @Column(name = "valor_hora", nullable = true, unique = true)
     private BigDecimal valorHora;
-
-    @Getter@Setter
-    @Column(name = "valor_multa")
+    @Getter @Setter
+    @Column(name = "valor_minuto_hora", nullable = true, unique = true)
     private BigDecimal valorMinutoMulta;
-
-    @Getter@Setter
-    @Column(name = "inicio_expediente")
+    @Getter @Setter
+    @Column(name = "inicio_expediente", nullable = true, unique = true)
     private LocalTime inicioExpediente;
-
-    @Getter@Setter
-    @Column(name = "fim_expediente")
+    @Getter @Setter
+    @Column(name = "fim_expediente", nullable = true, unique = true)
     private LocalTime fimExpediente;
-
-    @Getter@Setter
-    @Column(name = "tempo_desconto")
-    private BigDecimal tempoDesconto;
-
-    @Getter@Setter
-    @Column(name = "gerar_desconto")
+    @Getter @Setter
+    @Column(name = "tempo_para_desconto", nullable = true, unique = true)
+    private Long tempoParaDesconto;
+    @Getter @Setter
+    @Column(name = "tempo_de_desconto", nullable = true, unique = true)
+    private BigDecimal tempoDeDesconto;
+    @Getter @Setter
+    @Column(name = "gerar_desconto", nullable = true , unique = false)
     private Boolean gerarDesconto;
-
-    @Getter@Setter
-    @Column(name = "necessario_desconto")
-    private Integer necessarioDesconto;
-
-    @Getter@Setter
-    @Column(name = "vagas_moto")
-    private int vagasMoto;
-
-    @Getter@Setter
-    @Column(name = "vagas_carro")
-    private int vagasCarro;
-
-    @Getter@Setter
-    @Column(name = "vagas_va")
-    private int vagasVa;
-
+    @Getter @Setter
+    @Column(name = "vagas_moto", nullable = true, unique = true)
+    private Integer vagasMoto;
+    @Getter @Setter
+    @Column(name = "vagas_vans", nullable = true, unique = true)
+    private Integer vagasVan;
+    @Getter @Setter
+    @Column(name = "vagas_carro", nullable = true, unique = true)
+    private Integer vagasCarro;
+    @Column(name = "data", nullable = true)
+    @OrderBy("data DESC")
+    private LocalDateTime data;
 
 }

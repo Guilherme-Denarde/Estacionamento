@@ -12,11 +12,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(value = "/api/configuracao")
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/configuracao")
+@CrossOrigin("http://localhost:8081")
 public class ConfigController {
 
     @Autowired
@@ -25,43 +27,63 @@ public class ConfigController {
     @Autowired
     private ConfiguracaoService configuracaoService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdRequest(@PathVariable("id") final Long id){
 
-        final Configuracao configuracao = this.configuracaoRepository.findById(id).orElse(null);
-        return configuracao == null
-                ? ResponseEntity.badRequest().body("Nenhum valor Encontrado")
-                : ResponseEntity.ok(configuracao);
+    @GetMapping("/findAll")
+    public ResponseEntity<?> listaCompleta() {
+
+        return ResponseEntity.ok(this.configuracaoRepository.findAll());
     }
 
-    @PostMapping
-    public ResponseEntity<?> configuracao(@RequestBody final Configuracao configuracao){
-        try{
-            this.configuracaoRepository.save(configuracao);
-            return ResponseEntity.ok("REGISTRO CADASTRADO COM SUCESSO");
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("erro" +e.getStackTrace());
+    @PostMapping("/add")
+    public ResponseEntity<?> cadastrar(@RequestBody final Configuracao configuracao) {
+        try {
+            this.configuracaoService.cadastrar(configuracao);
+            return ResponseEntity.ok("Configuraçao Cadastrada");
+        } catch (RuntimeException erro) {
+            return ResponseEntity.badRequest().body("Erro ao cadastrar configuração: " + erro.getMessage());
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> edit(@RequestParam("id") final Long id, @RequestBody final Configuracao configuracao) {
-
+    @PutMapping("/{id}")
+    public ResponseEntity<?> editar(@PathVariable("id") final Long id, @RequestBody Configuracao configuracao) {
         try {
-            final Configuracao configuracaoBanco = this.configuracaoRepository.findById(id).orElse(null);
+            final Optional<Configuracao> configuracaoBancoOptional = this.configuracaoRepository.findById(id);
 
-            if (configuracaoBanco == null || configuracaoBanco.getId() != configuracao.getId()){
-                throw new RuntimeException("O registro nao foi encontrado");
+            if (configuracaoBancoOptional.isEmpty()) {
+                throw new RuntimeException("Não foi possível identificar a configuração no banco de dados.");
             }
 
-            this.configuracaoRepository.save(configuracao);
-            return ResponseEntity.ok("registro cadastrado");
+            Configuracao configuracaoBanco = configuracaoBancoOptional.get();
 
-        }catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("erro" + e.getCause().getCause().getMessage());
-        }catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("erro" + e.getMessage());
+            // Atualizar os campos individualmente
+            configuracaoBanco.setActive(configuracao.isActive());
+            configuracaoBanco.setValorHora(configuracao.getValorHora());
+            configuracaoBanco.setValorMinutoMulta(configuracao.getValorMinutoMulta());
+            configuracaoBanco.setInicioExpediente(configuracao.getInicioExpediente());
+            configuracaoBanco.setFimExpediente(configuracao.getFimExpediente());
+            configuracaoBanco.setTempoParaDesconto(configuracao.getTempoParaDesconto());
+            configuracaoBanco.setTempoDeDesconto(configuracao.getTempoDeDesconto());
+            configuracaoBanco.setGerarDesconto(configuracao.getGerarDesconto());
+            configuracaoBanco.setVagasMoto(configuracao.getVagasMoto());
+            configuracaoBanco.setVagasVan(configuracao.getVagasVan());
+            configuracaoBanco.setVagasCarro(configuracao.getVagasCarro());
+
+            this.configuracaoRepository.save(configuracaoBanco);
+            return ResponseEntity.ok("Registro atualizado.");
+        } catch (DataIntegrityViolationException erro) {
+            return ResponseEntity.internalServerError().body("Erro ao atualizar: " + erro.getCause().getCause().getMessage());
+        } catch (RuntimeException erro) {
+            return ResponseEntity.internalServerError().body("Erro ao atualizar: " + erro.getMessage());
         }
     }
-    }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deletar(@Param("id") final Long id) {
+        try {
+            this.configuracaoService.deletar(id);
+            return ResponseEntity.ok("Success");
+        } catch (Exception error) {
+            return new ResponseEntity<>("Erro ao deletar configuraçao: " + error.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+}

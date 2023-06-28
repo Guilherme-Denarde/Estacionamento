@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/conductor")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8081")
 public class ConductorController {
     @Autowired
     private ConductorRepository conductorRepository;

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/model")
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8081")
 public class ModelController {
 
         @Autowired

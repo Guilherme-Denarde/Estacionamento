@@ -14,36 +14,41 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @EnableWebMvc
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin("http://localhost:8081")
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/brand")
-                .allowedOrigins("http://localhost:8080/marca")
+                .allowedOrigins("http://localhost:8081/marca")
                 .allowedMethods("GET, POST, PUT, DELETE")
                 .allowCredentials(true);
 
         registry.addMapping("/api/model")
-                .allowedOrigins("http://localhost:8080/modelo")
+                .allowedOrigins("http://localhost:8081/modelo")
                 .allowedMethods("GET, POST, PUT, DELETE")
                 .allowCredentials(true);
 
 
         registry.addMapping("/api/movement")
-                .allowedOrigins("http://localhost:8080/movimentacao")
+                .allowedOrigins("http://localhost:8081/movimentacao")
                 .allowedMethods("GET, POST, PUT, DELETE")
                 .allowCredentials(true);
 
 
         registry.addMapping("/api/vehicle")
-                .allowedOrigins("http://localhost:8080/veiculo")
+                .allowedOrigins("http://localhost:8081/veiculo")
                 .allowedMethods("GET, POST, PUT, DELETE")
                 .allowCredentials(true);
 
 
         registry.addMapping("/api/conductor")
-                .allowedOrigins("http://localhost:8080/condutor")
+                .allowedOrigins("http://localhost:8081/condutor")
+                .allowedMethods("GET, POST, PUT, DELETE")
+                .allowCredentials(true);
+
+        registry.addMapping("/api/configuracao")
+                .allowedOrigins("http://localhost:8081/configuracao")
                 .allowedMethods("GET, POST, PUT, DELETE")
                 .allowCredentials(true);
     }

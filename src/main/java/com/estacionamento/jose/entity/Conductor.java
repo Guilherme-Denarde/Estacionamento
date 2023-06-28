@@ -3,6 +3,8 @@ package com.estacionamento.jose.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity
@@ -20,17 +22,5 @@ public class Conductor extends AbstractEntity {
     @Column(name = "telephone", nullable = false, length = 20)
     private String telephone;
 
-    @Getter @Setter
-    @Column(name = "payedTime")
-    private LocalTime payedTime;
 
-    @Getter @Setter
-    @Column(name = "cutTime")
-    private LocalTime cutTime;
-
-    @PrePersist
-    private void fillTime() {
-        this.payedTime = LocalTime.now();
-        this.cutTime = LocalTime.now();
-    }
 }
